@@ -1,7 +1,10 @@
-﻿using StackExchange.Redis;
+﻿using System;
+using System.IO;
+using System.Linq;
+using StackExchange.Redis;
 using csvReader;
 using Newtonsoft.Json;
-using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json.Linq;
 
 namespace RedisDatabase
 {
@@ -10,6 +13,11 @@ namespace RedisDatabase
         private IConnectionMultiplexer _connection { get; set; } = ConnectionMultiplexer.Connect("localhost:6379, allowAdmin=true");
 
         public Redis()
+        {
+            Flush();
+        }
+
+        public void Flush()
         {
             var server = _connection.GetServer("localhost:6379");
             server.FlushDatabase();
@@ -21,7 +29,7 @@ namespace RedisDatabase
             foreach (var stockDay in stock.Values)
             {
                 var json = JsonConvert.SerializeObject(stockDay);
-                db.SortedSetAdd(data, json, stockDay.Date.Ticks);          
+                db.SortedSetAdd(data, json, stockDay.Date.Ticks);
             }
         }
 
@@ -30,10 +38,10 @@ namespace RedisDatabase
             var db = _connection.GetDatabase();
             var values = db.SortedSetRangeByScore(data);
             Stock stock = new Stock();
-            
+
             foreach (var json in values)
             {
-                var stockDay = JsonConvert.DeserializeObject<StockDay>(json);                
+                var stockDay = JsonConvert.DeserializeObject<StockDay>(json);
                 stock.AddDay(stockDay);
             }
         }

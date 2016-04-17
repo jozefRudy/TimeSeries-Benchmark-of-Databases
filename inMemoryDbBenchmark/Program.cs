@@ -17,7 +17,7 @@ namespace inMemoryDbBenchmark
             csvReader.ReadCsv("source.csv");
 
             var redis = new Redis();
-
+                       
             var watch = Stopwatch.StartNew();
             redis.Write("test", csvReader.stock);
             watch.Stop();
