@@ -5,6 +5,7 @@ using StackExchange.Redis;
 using csvReader;
 using System.Text;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RedisDatabase
 {
@@ -31,9 +32,9 @@ namespace RedisDatabase
             foreach (var stockDay in stock.Values)
             {
                 var json = stockDay.ToString();
-                transaction.SortedSetAddAsync(data, json, stockDay.Date.Ticks);
+                transaction.SortedSetAddAsync(data, json, stockDay.Date.Ticks, CommandFlags.FireAndForget);
             }
-            var committed = transaction.Execute();            
+            var commited = transaction.Execute();            
         }
 
         public void Read(string data)
