@@ -12,6 +12,8 @@ namespace csvReader
 
         private SortedList<DateTime, StockDay> _data;
 
+
+
         public Stock()
         {
             _data = new SortedList<DateTime, StockDay>();

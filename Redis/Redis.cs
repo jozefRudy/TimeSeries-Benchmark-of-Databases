@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using StackExchange.Redis;
 using csvReader;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Collections.Generic;
 
 namespace RedisDatabase
 {
@@ -28,7 +28,7 @@ namespace RedisDatabase
             var db = _connection.GetDatabase();
             foreach (var stockDay in stock.Values)
             {
-                var json = JsonConvert.SerializeObject(stockDay);
+                var json = stockDay.ToString();
                 db.SortedSetAdd(data, json, stockDay.Date.Ticks);
             }
         }
@@ -38,10 +38,10 @@ namespace RedisDatabase
             var db = _connection.GetDatabase();
             var values = db.SortedSetRangeByScore(data);
             Stock stock = new Stock();
-
             foreach (var json in values)
             {
-                var stockDay = JsonConvert.DeserializeObject<StockDay>(json);
+                string[] array = (json.ToString()).Split(new string[] { "\r\n" },StringSplitOptions.RemoveEmptyEntries);
+                var stockDay = new StockDay(array);
                 stock.AddDay(stockDay);
             }
         }

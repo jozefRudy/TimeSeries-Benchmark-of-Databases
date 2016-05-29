@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +17,10 @@ namespace inMemoryDbBenchmark
         {
             var csvReader = new Csv();
             csvReader.ReadCsv("source.csv");
-
+            var basePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\"));
+            var redisPath = Path.Combine(basePath, "packages\\redis-64.3.0.501\\tools\\redis-server.exe");
+            var redisProcess = Process.Start(redisPath);
+            
             var redis = new Redis();
                        
             var watch = Stopwatch.StartNew();
@@ -27,7 +32,8 @@ namespace inMemoryDbBenchmark
             redis.Read("test");
             watch.Stop();
             Console.WriteLine("Read in secs: " + watch.Elapsed.TotalSeconds);
-            Console.ReadKey();
+
+            redisProcess.Kill();          
         }
     }
 }

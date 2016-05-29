@@ -21,18 +21,32 @@ namespace csvReader
 
         public StockDay(string[] data)
         {
-            if (data == null || data.Length != 8) return;
+            if (data == null || data.Length != 7) return;
 
-            DateTime.TryParse(data[1], out Date);
-            float.TryParse(data[2], out Open);
-            float.TryParse(data[3], out High);
-            float.TryParse(data[4], out Low);
-            float.TryParse(data[5], out Close);
-            float.TryParse(data[6], out Daco);
-            float.TryParse(data[7], out Volume);
+            DateTime.TryParse(data[0], out Date);
+            float.TryParse(data[1], out Open);
+            float.TryParse(data[2], out High);
+            float.TryParse(data[3], out Low);
+            float.TryParse(data[4], out Close);
+            float.TryParse(data[5], out Daco);
+            float.TryParse(data[6], out Volume);
         }
 
         public StockDay()
         { }
+
+        public override string ToString()
+        {            
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(Date.ToString());
+            builder.AppendLine(Open.ToString());
+            builder.AppendLine(High.ToString());
+            builder.AppendLine(Low.ToString());
+            builder.AppendLine(Close.ToString());
+            builder.AppendLine(Daco.ToString());
+            builder.AppendLine(Volume.ToString());
+            return builder.ToString();
+
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace csvReader
             while ((line = stream.ReadLine()) != null)
             {
                 var data = line.Split(',');
-                var parsedLine = new StockDay(data);
+                var parsedLine = new StockDay(data.Skip(1).Take(data.Length - 1).ToArray());
                 stock.AddDay(parsedLine);
             }
             stream.Close();
