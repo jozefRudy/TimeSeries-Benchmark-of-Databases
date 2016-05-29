@@ -26,11 +26,14 @@ namespace RedisDatabase
         public void Write(string data, Stock stock)
         {
             var db = _connection.GetDatabase();
+            var transaction = db.CreateTransaction();
+
             foreach (var stockDay in stock.Values)
             {
                 var json = stockDay.ToString();
-                db.SortedSetAdd(data, json, stockDay.Date.Ticks);
+                transaction.SortedSetAddAsync(data, json, stockDay.Date.Ticks);
             }
+            var committed = transaction.Execute();            
         }
 
         public void Read(string data)

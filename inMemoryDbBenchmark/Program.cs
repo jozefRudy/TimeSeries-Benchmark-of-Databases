@@ -33,7 +33,7 @@ namespace inMemoryDbBenchmark
             watch.Stop();
             Console.WriteLine("Read in secs: " + watch.Elapsed.TotalSeconds);
 
-            redisProcess.Kill();          
+            redisProcess?.Kill();          
         }
     }
 }
