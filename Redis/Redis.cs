@@ -40,7 +40,7 @@ namespace RedisDatabase
             Stock stock = new Stock();
             foreach (var json in values)
             {
-                string[] array = (json.ToString()).Split(new string[] { "\r\n" },StringSplitOptions.RemoveEmptyEntries);
+                string[] array = ((string)json).Split(',');
                 var stockDay = new StockDay(array);
                 stock.AddDay(stockDay);
             }

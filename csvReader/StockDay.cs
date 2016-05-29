@@ -37,14 +37,20 @@ namespace csvReader
 
         public override string ToString()
         {            
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine(Date.ToString());
-            builder.AppendLine(Open.ToString());
-            builder.AppendLine(High.ToString());
-            builder.AppendLine(Low.ToString());
-            builder.AppendLine(Close.ToString());
-            builder.AppendLine(Daco.ToString());
-            builder.AppendLine(Volume.ToString());
+            StringBuilder builder = new StringBuilder();            
+            builder.Append(Date);
+            builder.Append(',');
+            builder.Append(Open);
+            builder.Append(',');
+            builder.Append(High);
+            builder.Append(',');
+            builder.Append(Low);
+            builder.Append(',');
+            builder.Append(Close);
+            builder.Append(',');
+            builder.Append(Daco);
+            builder.Append(',');
+            builder.Append(Volume);
             return builder.ToString();
 
         }
